@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Atividades</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <h1>Sistema de Gerenciamento de Atividades</h1>
+
+    <!-- Formulário para adicionar atividades -->
     <form id="activityForm">
         <label for="categoria">Categoria da atividade:</label><br>
         <select id="categoria" required>
@@ -28,6 +30,7 @@
         <button type="submit">Adicionar Atividade</button>
     </form>
 
+    <!-- Tabela de atividades adicionadas -->
     <h2>Tabela de Atividades</h2>
     <table id="resultTable">
         <thead>
@@ -44,30 +47,36 @@
         <tbody></tbody>
     </table>
 
+    <!-- Resumo das horas por categoria -->
     <h2>Total de Horas por Categoria</h2>
     <table id="summaryTable">
         <thead>
             <tr>
                 <th>Categoria</th>
-                <th>Total de Horas</th>
+                <th>Horas Totais Inseridas</th>
+                <th>Horas Totais Rendidas</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>Extensão</td>
-                <td id="extensaoTotal">0</td>
+                <td id="extensaoTotalHoras">0</td>
+                <td id="extensaoHorasRendidas">0</td>
             </tr>
             <tr>
                 <td>Ensino</td>
-                <td id="ensinoTotal">0</td>
+                <td id="ensinoTotalHoras">0</td>
+                <td id="ensinoHorasRendidas">0</td>
             </tr>
             <tr>
                 <td>Pesquisa</td>
-                <td id="pesquisaTotal">0</td>
+                <td id="pesquisaTotalHoras">0</td>
+                <td id="pesquisaHorasRendidas">0</td>
             </tr>
             <tr>
                 <td><strong>Total Geral</strong></td>
-                <td id="totalGeral">0</td>
+                <td id="totalGeralHoras">0</td>
+                <td id="totalGeralRendidas">0</td>
             </tr>
         </tbody>
     </table>

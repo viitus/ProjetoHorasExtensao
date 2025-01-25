@@ -1,82 +1,99 @@
+// Classe para representar uma atividade
+class Atividade {
+    constructor(categoria, descricao, horasTotais, aproveitamento, limiteHoras) {
+        this.categoria = categoria;
+        this.descricao = descricao;
+        this.horasTotais = horasTotais;
+        this.aproveitamento = aproveitamento;
+        this.limiteHoras = limiteHoras;
+        this.horasRendidas = Math.min(horasTotais * aproveitamento, limiteHoras);
+    }
+}
+
+// Classe para representar uma categoria
+class Categoria {
+    constructor(nome) {
+        this.nome = nome;
+        this.limiteHoras = 90;
+        this.totalHoras = 0;
+        this.totalHorasRendidas = 0;
+        this.atividades = [];
+    }
+
+    adicionarAtividade(atividade) {
+        if (this.atividades.some(a => a.descricao === atividade.descricao)) {
+            alert("Esta atividade já foi adicionada.");
+            return false;
+        }
+        this.totalHoras += atividade.horasTotais;
+        const novasHorasRendidas = this.totalHorasRendidas + atividade.horasRendidas;
+        this.totalHorasRendidas = Math.min(novasHorasRendidas, this.limiteHoras);
+        this.atividades.push(atividade);
+        return true;
+    }
+
+    removerAtividade(atividade) {
+        this.totalHoras -= atividade.horasTotais;
+        this.atividades = this.atividades.filter(a => a !== atividade);
+        this.totalHorasRendidas = Math.min(
+            this.atividades.reduce((sum, a) => sum + a.horasRendidas, 0),
+            this.limiteHoras
+        );
+    }
+
+    getTotalHoras() {
+        return this.totalHorasRendidas;
+    }
+}
+
+// Inicialização das categorias
+const categorias = {
+    "Extensão": new Categoria("Extensão"),
+    "Ensino": new Categoria("Ensino"),
+    "Pesquisa": new Categoria("Pesquisa")
+};
+
+// Dados sobre atividades disponíveis
 const atividadesPorCategoria = {
     "Extensão": [
-        "Projeto de extensão",
-        "Atividades culturais",
-        "Visitas Técnicas",
-        "Visitas a Feiras e Exposições",
-        "Cursos de Idiomas",
-        "Palestras, Seminários e Congressos Extensionistas (ouvinte)",
-        "Palestras, Seminários e Congressos Extensionistas (apresentador)",
-        "Projeto Empresa Júnior"
+        { descricao: "Projeto de extensão", aproveitamento: 0.10, limiteHoras: 50 },
+        { descricao: "Atividades culturais", aproveitamento: 0.80, limiteHoras: 30 },
+        { descricao: "Visitas Técnicas", aproveitamento: 1.00, limiteHoras: 20 },
+        { descricao: "Visitas a Feiras e Exposições", aproveitamento: 0.20, limiteHoras: 15 },
+        { descricao: "Cursos de Idiomas", aproveitamento: 0.60, limiteHoras: 30 },
+        { descricao: "Palestras, Seminários e Congressos Extensionistas (ouvinte)", aproveitamento: 0.80, limiteHoras: 25 },
+        { descricao: "Palestras, Seminários e Congressos Extensionistas (apresentador)", aproveitamento: 1.00, limiteHoras: 50 },
+        { descricao: "Projeto Empresa Júnior", aproveitamento: 0.20, limiteHoras: 50 }
     ],
     "Ensino": [
-        "Monitoria",
-        "Concursos e campeonatos de atividades acadêmicas",
-        "Presença comprovada a defesas de TCC do curso de Engenharia de Computação",
-        "Cursos Profissionalizantes Específicos na área",
-        "Cursos Profissionalizantes em geral",
-        "Estágio Extracurricular"
+        { descricao: "Monitoria", aproveitamento: 0.70, limiteHoras: 60 },
+        { descricao: "Concursos e campeonatos de atividades acadêmicas", aproveitamento: 0.70, limiteHoras: 40 },
+        { descricao: "Presença comprovada a defesas de TCC do curso de Engenharia de Computação", aproveitamento: 0.50, limiteHoras: 20 },
+        { descricao: "Cursos Profissionalizantes Específicos na área", aproveitamento: 0.80, limiteHoras: 40 },
+        { descricao: "Cursos Profissionalizantes em geral", aproveitamento: 0.20, limiteHoras: 50 },
+        { descricao: "Estágio Extracurricular", aproveitamento: 0.70, limiteHoras: 80 }
     ],
     "Pesquisa": [
-        "Iniciação Científica",
-        "Publicação de artigos em periódicos científicos",
-        "Publicação de artigos completos em anais de congressos",
-        "Publicação de capítulo de livro",
-        "Publicação de resumos de artigos em anais",
-        "Registro de patentes como auto/coautor",
-        "Premiação resultante de pesquisa científica",
-        "Colaborador em atividades como Seminários e Congressos",
-        "Palestras, Seminários e Congressos de Pesquisa (ouvinte)",
-        "Palestras, Seminários e Congressos de Pesquisa (apresentador)"
+        { descricao: "Iniciação Científica", aproveitamento: 0.80, limiteHoras: 50 },
+        { descricao: "Publicação de artigos em periódicos científicos", aproveitamento: 1.00, limiteHoras: 60 },
+        { descricao: "Publicação de artigos completos em anais de congressos", aproveitamento: 1.00, limiteHoras: 60 },
+        { descricao: "Publicação de capítulo de livro", aproveitamento: 1.00, limiteHoras: 60 },
+        { descricao: "Publicação de resumos de artigos em anais", aproveitamento: 1.00, limiteHoras: 50 },
+        { descricao: "Registro de patentes como auto/coautor", aproveitamento: 1.00, limiteHoras: 70 },
+        { descricao: "Premiação resultante de pesquisa científica", aproveitamento: 1.00, limiteHoras: 30 },
+        { descricao: "Colaborador em atividades como Seminários e Congressos", aproveitamento: 1.00, limiteHoras: 40 },
+        { descricao: "Palestras, Seminários e Congressos de Pesquisa (ouvinte)", aproveitamento: 0.80, limiteHoras: 30 },
+        { descricao: "Palestras, Seminários e Congressos de Pesquisa (apresentador)", aproveitamento: 1.00, limiteHoras: 50 }
     ]
 };
 
-const categoriaLimite = { 
-    "Extensão": 90,  
-    "Ensino": 90,     
-    "Pesquisa": 90    
-};
-
-const aproveitamentoPorTipo = {
-    "Projeto de extensão": 0.10,
-    "Atividades culturais": 0.80,
-    "Visitas Técnicas": 1.00,
-    "Visitas a Feiras e Exposições": 0.20,
-    "Cursos de Idiomas": 0.60,
-    "Palestras, Seminários e Congressos Extensionistas (ouvinte)": 0.80,
-    "Palestras, Seminários e Congressos Extensionistas (apresentador)": 1.00,
-    "Projeto Empresa Júnior": 0.20,
-    "Monitoria": 0.70,
-    "Concursos e campeonatos de atividades acadêmicas": 0.70,
-    "Presença comprovada a defesas de TCC do curso de Engenharia de Computação": 0.50,
-    "Cursos Profissionalizantes Específicos na área": 0.80,
-    "Cursos Profissionalizantes em geral": 0.20,
-    "Estágio Extracurricular": 0.70,
-    "Iniciação Científica": 0.80,
-    "Publicação de artigos em periódicos científicos": 1.00,
-    "Publicação de artigos completos em anais de congressos": 1.00,
-    "Publicação de capítulo de livro": 1.00,
-    "Publicação de resumos de artigos em anais": 1.00,
-    "Registro de patentes como auto/coautor": 1.00,
-    "Premiação resultante de pesquisa científica": 1.00,
-    "Colaborador em atividades como Seminários e Congressos": 1.00,
-    "Palestras, Seminários e Congressos de Pesquisa (ouvinte)": 0.80,
-    "Palestras, Seminários e Congressos de Pesquisa (apresentador)": 1.00,
-};
-
-// Inicializar categoriaHoras
-const categoriaHoras = {
-    "Extensão": 0,
-    "Ensino": 0,
-    "Pesquisa": 0
-};
-
+// Elementos DOM
 const categoriaSelect = document.getElementById("categoria");
 const descricaoSelect = document.getElementById("descricao");
+const form = document.getElementById("activityForm");
+const resultTableBody = document.querySelector("#resultTable tbody");
 
-
-
-
+// Atualiza atividades ao selecionar categoria
 categoriaSelect.addEventListener("change", () => {
     const categoria = categoriaSelect.value;
     descricaoSelect.innerHTML = '<option value="" disabled selected>Selecione uma atividade</option>';
@@ -84,8 +101,8 @@ categoriaSelect.addEventListener("change", () => {
     if (atividadesPorCategoria[categoria]) {
         atividadesPorCategoria[categoria].forEach(atividade => {
             const option = document.createElement("option");
-            option.value = atividade;
-            option.textContent = atividade;
+            option.value = JSON.stringify(atividade);
+            option.textContent = atividade.descricao;
             descricaoSelect.appendChild(option);
         });
         descricaoSelect.disabled = false;
@@ -94,88 +111,68 @@ categoriaSelect.addEventListener("change", () => {
     }
 });
 
-
-
-
-
-document.getElementById("activityForm").addEventListener("submit", function (event) {
+// Adiciona atividade ao submeter formulário
+form.addEventListener("submit", event => {
     event.preventDefault();
 
-    const descricao = descricaoSelect.value;
     const categoria = categoriaSelect.value;
+    const atividadeData = JSON.parse(descricaoSelect.value);
     const horasTotais = parseInt(document.getElementById("horasTotais").value);
 
-    if (!horasTotais || !descricao || !categoria) {
-        alert("Preencha todos os campos corretamente!");
-        return;
+    const atividade = new Atividade(
+        categoria,
+        atividadeData.descricao,
+        horasTotais,
+        atividadeData.aproveitamento,
+        atividadeData.limiteHoras
+    );
+
+    if (!categorias[categoria].adicionarAtividade(atividade)) {
+        return; // Não adiciona à tabela se a atividade for repetida
     }
 
-    const aproveitamento = aproveitamentoPorTipo[descricao] || 1;
-    const horasRendidas = horasTotais * aproveitamento;
-    const limiteHoras = categoriaLimite[categoria];
-    const horasAproveitadasFinal = Math.min(horasRendidas, limiteHoras - categoriaHoras[categoria]);
-
-    // Verificar se a atividade já existe na tabela
-    const tableBody = document.querySelector("#resultTable tbody");
-    const existingRow = Array.from(tableBody.rows).find(row => {
-        const rowCategoria = row.cells[0].textContent;
-        const rowDescricao = row.cells[1].textContent;
-        return rowCategoria === categoria && rowDescricao === descricao;
-    });
-
-    if (existingRow) {
-        // Atualizar a linha existente
-        const horasExistentes = parseFloat(existingRow.cells[4].textContent);
-        const horasAproveitadasExistentes = parseFloat(existingRow.cells[5].textContent);
-
-        const novasHorasTotais = horasExistentes + horasTotais;
-        const novasHorasAproveitadas = horasAproveitadasExistentes + horasAproveitadasFinal;
-
-        existingRow.cells[4].textContent = novasHorasTotais.toFixed(2);
-        existingRow.cells[5].textContent = novasHorasAproveitadas.toFixed(2);
-    } else {
-        // Criar uma nova linha
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${categoria}</td>
-            <td>${descricao}</td>
-            <td>${(aproveitamento * 100).toFixed(2)}%</td>
-            <td>${limiteHoras}</td>
-            <td>${horasTotais}</td>
-            <td>${horasAproveitadasFinal.toFixed(2)}</td>
-            <td><button class="delete-btn">Apagar</button></td>
-        `;
-
-        tableBody.appendChild(row);
-
-        // Função de apagar linha
-        row.querySelector(".delete-btn").addEventListener("click", () => {
-            categoriaHoras[categoria] -= horasAproveitadasFinal;
-            row.remove();
-            atualizarResumoHoras();
-        });
-    }
-
-    categoriaHoras[categoria] += horasAproveitadasFinal;
-
-    // Resetar o formulário
-    document.getElementById("activityForm").reset();
+    atualizarTabela(atividade);
+    form.reset();
     descricaoSelect.disabled = true;
-
-    // Atualizar total de horas por categoria
     atualizarResumoHoras();
 });
 
+// Atualiza a tabela de atividades
+function atualizarTabela(atividade) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${atividade.categoria}</td>
+        <td>${atividade.descricao}</td>
+        <td>${(atividade.aproveitamento * 100).toFixed(2)}%</td>
+        <td>${atividade.limiteHoras}</td>
+        <td>${atividade.horasTotais}</td>
+        <td>${atividade.horasRendidas.toFixed(2)}</td>
+        <td><button class="delete-btn">Apagar</button></td>
+    `;
 
+    resultTableBody.appendChild(row);
 
+    row.querySelector(".delete-btn").addEventListener("click", () => {
+        categorias[atividade.categoria].removerAtividade(atividade);
+        row.remove();
+        atualizarResumoHoras();
+    });
+}
 
+// Atualiza resumo de horas
 function atualizarResumoHoras() {
-    // Atualiza os totais por categoria
-    document.getElementById("extensaoTotal").textContent = categoriaHoras["Extensão"].toFixed(2);
-    document.getElementById("ensinoTotal").textContent = categoriaHoras["Ensino"].toFixed(2);
-    document.getElementById("pesquisaTotal").textContent = categoriaHoras["Pesquisa"].toFixed(2);
+    document.getElementById("extensaoTotalHoras").textContent = categorias["Extensão"].totalHoras.toFixed(2);
+    document.getElementById("extensaoHorasRendidas").textContent = categorias["Extensão"].getTotalHoras().toFixed(2);
 
-    // Atualiza o total geral
-    const totalGeral = categoriaHoras["Extensão"] + categoriaHoras["Ensino"] + categoriaHoras["Pesquisa"];
-    document.getElementById("totalGeral").textContent = totalGeral.toFixed(2);
+    document.getElementById("ensinoTotalHoras").textContent = categorias["Ensino"].totalHoras.toFixed(2);
+    document.getElementById("ensinoHorasRendidas").textContent = categorias["Ensino"].getTotalHoras().toFixed(2);
+
+    document.getElementById("pesquisaTotalHoras").textContent = categorias["Pesquisa"].totalHoras.toFixed(2);
+    document.getElementById("pesquisaHorasRendidas").textContent = categorias["Pesquisa"].getTotalHoras().toFixed(2);
+
+    const totalGeralHoras = categorias["Extensão"].totalHoras + categorias["Ensino"].totalHoras + categorias["Pesquisa"].totalHoras;
+    const totalGeralRendidas = categorias["Extensão"].getTotalHoras() + categorias["Ensino"].getTotalHoras() + categorias["Pesquisa"].getTotalHoras();
+
+    document.getElementById("totalGeralHoras").textContent = totalGeralHoras.toFixed(2);
+    document.getElementById("totalGeralRendidas").textContent = totalGeralRendidas.toFixed(2);
 }
