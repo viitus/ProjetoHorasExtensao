@@ -1,6 +1,6 @@
 ## Faça um sistema que receba como entrada lançamento de horas Complementares, seguindo as regras contidas no PPC do curso de Engenharia da Computação da UEMG Divinópolis
 
-###Sistema deve receber:
+### Sistema deve receber:
 - Descrição da atividade
 - Classificar a categoria da atividade (Ensino, Extensão e Pesquisa)
 - Classificar o tipo específico da atividade (Projeto de extensão, Atividades culturais, Visitas Técnicas, Visitas a Feiras e Exposições)
