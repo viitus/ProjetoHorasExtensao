@@ -79,7 +79,7 @@ const atividadesPorCategoria = {
         { descricao: "Publicação de artigos completos em anais de congressos", aproveitamento: 1.00, limiteHoras: 60 },
         { descricao: "Publicação de capítulo de livro", aproveitamento: 1.00, limiteHoras: 60 },
         { descricao: "Publicação de resumos de artigos em anais", aproveitamento: 1.00, limiteHoras: 50 },
-        { descricao: "Registro de patentes como auto/coautor", aproveitamento: 1.00, limiteHoras: 70 },
+        { descricao: "Registro de patentes como autor/coautor", aproveitamento: 1.00, limiteHoras: 70 },
         { descricao: "Premiação resultante de pesquisa científica", aproveitamento: 1.00, limiteHoras: 30 },
         { descricao: "Colaborador em atividades como Seminários e Congressos", aproveitamento: 1.00, limiteHoras: 40 },
         { descricao: "Palestras, Seminários e Congressos de Pesquisa (ouvinte)", aproveitamento: 0.80, limiteHoras: 30 },
@@ -153,9 +153,11 @@ function atualizarTabela(atividade) {
     resultTableBody.appendChild(row);
 
     row.querySelector(".delete-btn").addEventListener("click", () => {
-        categorias[atividade.categoria].removerAtividade(atividade);
-        row.remove();
-        atualizarResumoHoras();
+        if (confirm("Tem certeza que deseja apagar esta atividade?")) {
+            categorias[atividade.categoria].removerAtividade(atividade);
+            row.remove();
+            atualizarResumoHoras();
+        }
     });
 }
 
