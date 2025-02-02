@@ -1,4 +1,6 @@
-## Faça um sistema que receba como entrada lançamento de horas Complementares, seguindo as regras contidas no PPC do curso de Engenharia da Computação da UEMG Divinópolis
+# Projeto de Desenvolvimento Web
+
+### Faça um sistema que receba como entrada lançamento de horas Complementares, seguindo as regras contidas no PPC do curso de Engenharia da Computação da UEMG Divinópolis
 
 ### Sistema deve receber:
 - Descrição da atividade
