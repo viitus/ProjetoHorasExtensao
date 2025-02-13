@@ -10,3 +10,6 @@
 - Calcular o total de horas aproveitados daquela atividade
 - Calcular o total de horas totais daquele tipo de atividade naquela categoria
 - Observar a limitação total de 90 horas por categoria
+
+
+### irei adicionar parte de backend para parte 2 do projeto em breve
