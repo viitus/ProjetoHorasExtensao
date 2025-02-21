@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Atividades</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } 
+        from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+    
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDy4Jkd3TGjw7Ti7j04Sx3DKlB2M1Rouw",
+            authDomain: "extensao-9f20c.firebaseapp.com",
+            projectId: "extensao-9f20c",
+            storageBucket: "extensao-9f20c.appspot.com",  // 🔥 Corrigido aqui!
+            messagingSenderId: "382935632026",
+            appId: "1:382935632026:web:2cebc99b440e667f22b723",
+            measurementId: "G-WZE90SBMPK"
+        };
+    
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app); // Agora Firestore está inicializado corretamente!
+    </script>
+    
+    
+
+    <h1>Sistema de Gerenciamento de Atividades</h1>
+
+    <!-- Formulário para adicionar atividades -->
+    <form id="activityForm">
+        <label for="categoria">Categoria da atividade:</label><br>
+        <select id="categoria" required>
+            <option value="" disabled selected>Selecione uma categoria</option>
+            <option value="Extensão">Extensão</option>
+            <option value="Ensino">Ensino</option>
+            <option value="Pesquisa">Pesquisa</option>
+        </select><br><br>
+
+        <label for="descricao">Descrição da atividade:</label><br>
+        <select id="descricao" required disabled>
+            <option value="" disabled selected>Selecione uma categoria primeiro</option>
+        </select><br><br>
+
+        <label for="horasTotais">Total de horas da atividade:</label><br>
+        <input type="number" id="horasTotais" min="1" required><br><br>
+
+        <button type="submit">Adicionar Atividade</button>
+    </form>
+
+    <!-- Tabela de atividades adicionadas -->
+    <h2>Tabela de Atividades</h2>
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>Atividade</th>
+                <th>Aproveitamento</th>
+                <th>Limite de Horas</th>
+                <th>Horas Inseridas</th>
+                <th>Horas Rendidas</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Inserção por JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Resumo das horas por categoria -->
+    <h2>Total de Horas por Categoria</h2>
+    <table id="summaryTable">
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>Horas Totais Inseridas</th>
+                <th>Horas Totais Rendidas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Extensão</td>
+                <td id="extensaoTotalHoras">0</td>
+                <td id="extensaoHorasRendidas">0</td>
+            </tr>
+            <tr>
+                <td>Ensino</td>
+                <td id="ensinoTotalHoras">0</td>
+                <td id="ensinoHorasRendidas">0</td>
+            </tr>
+            <tr>
+                <td>Pesquisa</td>
+                <td id="pesquisaTotalHoras">0</td>
+                <td id="pesquisaHorasRendidas">0</td>
+            </tr>
+            <tr>
+                <td><strong>Total Geral</strong></td>
+                <td id="totalGeralHoras">0</td>
+                <td id="totalGeralRendidas">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script type="module" src="script.js"></script>
+
+</body>
+</html>

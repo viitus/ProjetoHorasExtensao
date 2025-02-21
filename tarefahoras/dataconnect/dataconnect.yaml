@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "tarefahoras"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "tarefahoras-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]
