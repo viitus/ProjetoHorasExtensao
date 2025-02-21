@@ -51,6 +51,7 @@ class Categoria {
         const novasHorasRendidas = this.totalHorasRendidas + atividade.horasRendidas;
         this.totalHorasRendidas = Math.min(novasHorasRendidas, this.limiteHoras);
         this.atividades.push(atividade);
+        atualizarResumoHoras()
         return true;
     }
 
@@ -61,6 +62,7 @@ class Categoria {
             this.atividades.reduce((sum, a) => sum + a.horasRendidas, 0),
             this.limiteHoras
         );
+        atualizarResumoHoras()
     }
 
     getTotalHoras() {
@@ -157,8 +159,9 @@ form.addEventListener("submit", async(event) => {
             limiteHoras: atividade.limiteHoras,
             horasRendidas: atividade.horasRendidas
         });
-
+        categorias[categoria].adicionarAtividade(atividade);
         atualizarTabela(atividade);
+        atualizarResumoHoras();
         form.reset();
         descricaoSelect.disabled = true;
     } catch (error) {
@@ -170,22 +173,37 @@ form.addEventListener("submit", async(event) => {
 // Carrega atividades salvas do Firestore
 async function carregarAtividades() {
     const querySnapshot = await getDocs(collection(db, "atividades"));
+    
+    // Limpa as atividades existentes nas categorias
+    categorias["Extensão"].atividades = [];
+    categorias["Ensino"].atividades = [];
+    categorias["Pesquisa"].atividades = [];
+
     querySnapshot.forEach((doc) => {
         const data = doc.data();
         const atividade = new Atividade(
             data.categoria, data.descricao, data.horasTotais,
             data.aproveitamento, data.limiteHoras
         );
+
+        // Adiciona a atividade à categoria correta
+        categorias[atividade.categoria].adicionarAtividade(atividade);
         atualizarTabela(atividade, doc.id);
     });
+
+    // Atualiza o resumo de horas após carregar as atividades
+    atualizarResumoHoras();
 }
 
 
 
 
+
+// Atualiza a tabela de atividades
 // Atualiza a tabela de atividades
 function atualizarTabela(atividade, docId = null) {
     const row = document.createElement("tr");
+    row.dataset.id = docId; // Atribui o ID do documento ao atributo data-id da linha
     row.innerHTML = `
         <td>${atividade.categoria}</td>
         <td>${atividade.descricao}</td>
@@ -196,19 +214,25 @@ function atualizarTabela(atividade, docId = null) {
         <td><button class="delete-btn">Apagar</button></td>
     `;
     resultTableBody.appendChild(row);
-
-    row.querySelector(".delete-btn").addEventListener("click", () => {
+    // Evento para remover a atividade
+    row.querySelector(".delete-btn").addEventListener("click", async () => {
         if (confirm("Tem certeza que deseja apagar esta atividade?")) {
-            db.collection("atividades").where("descricao", "==", atividade.descricao)
-                .get().then(querySnapshot => {
-                    querySnapshot.forEach(doc => {
-                        db.collection("atividades").doc(doc.id).delete();
-                    });
-                });
-            row.remove();
+            try {
+                if (docId) {
+                    await deleteDoc(doc(db, "atividades", docId));
+                }
+                // Remover a atividade da categoria correta usando atividade.categoria
+                categorias[atividade.categoria].removerAtividade(atividade);
+                row.remove(); // Remove a linha da tabela
+                atualizarResumoHoras(); // Atualiza o resumo de horas
+            } catch (error) {
+                console.error("Erro ao deletar atividade: ", error);
+            }
         }
     });
 }
+
+
 
 
 // Atualiza resumo de horas
