@@ -12,4 +12,7 @@
 - Observar a limitação total de 90 horas por categoria
 
 
+
+
+### Os arquivos principais index.html, script.js e style.css estao em tarefahoras/estaticos
 Hosting URL: https://extensao-9f20c.web.app
